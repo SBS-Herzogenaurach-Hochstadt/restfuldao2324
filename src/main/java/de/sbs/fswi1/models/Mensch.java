@@ -1,5 +1,8 @@
 package de.sbs.fswi1.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public abstract class Mensch {
@@ -7,7 +10,10 @@ public abstract class Mensch {
 
     protected final String geburtsdatum;
 
-    public Mensch(String vorname, String nachname, String geburtsdatum) {
+    @JsonCreator
+    public Mensch(@JsonProperty("vorname") String vorname,
+                  @JsonProperty("nachname") String nachname,
+                  @JsonProperty("geburtsdatum") String geburtsdatum) {
         this.vorname = vorname;
         this.nachname = nachname;
         this.geburtsdatum = geburtsdatum;

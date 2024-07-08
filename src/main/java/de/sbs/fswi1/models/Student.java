@@ -8,15 +8,8 @@ import java.util.Objects;
 
 public class Student extends StudentDTO {
 
-    private Timestamp zeitstempel;
-
     public Student(String vorname, String nachname, String geburtsdatum, String klasse) {
         super(vorname, nachname, geburtsdatum, klasse);
-        zeitstempel = new Timestamp(System.nanoTime());
-    }
-
-    public long getZeitstempel() {
-        return zeitstempel.getTime();
     }
 
     public String getNachnameVorname() {
@@ -51,10 +44,7 @@ public class Student extends StudentDTO {
 
         Student otherStudent = (Student) other;
 
-        if (otherStudent.getVorname().equals(this.getVorname())
-                && otherStudent.getNachname().equals(this.getNachname())
-                && otherStudent.getGeburtsdatum().equals(this.getGeburtsdatum())
-                && otherStudent.getKlasse().equals(this.getKlasse())) {
+        if (otherStudent.id == this.id) {
             return true;
         }
 
@@ -63,6 +53,6 @@ public class Student extends StudentDTO {
 
     @Override
     public int hashCode() {
-        return Objects.hash(vorname, nachname, geburtsdatum, klasse);
+        return Objects.hash(id);
     }
 }
