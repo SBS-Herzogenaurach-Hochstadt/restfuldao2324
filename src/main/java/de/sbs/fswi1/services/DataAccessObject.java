@@ -7,7 +7,6 @@ import de.sbs.fswi1.models.StudentDTO;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
@@ -16,13 +15,11 @@ import java.util.List;
 public class DataAccessObject {
 
     public List<StudentDTO> findAll() {
-
         List<StudentDTO> students = new ArrayList<>();
-
         try (HttpClient client = HttpClient.newHttpClient()) {
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/studenten")).
+                    .uri(new URI("http://192.168.4.143:8080/studenten")).
                     GET().build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -47,11 +44,37 @@ public class DataAccessObject {
             String requestBody = mapper.writeValueAsString(student);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8080/studenten"))
+                    .uri(new URI("http://192.168.4.143:8080/studenten"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(long id) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://192.168.4.143:8080/studenten/" + id))
+                    .DELETE().build();
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(long id, StudentDTO student) {
+        ObjectMapper mapper = new ObjectMapper();
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            String requestBody = mapper.writeValueAsString(student);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://192.168.4.143:8080/studenten/" + id))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             e.printStackTrace();

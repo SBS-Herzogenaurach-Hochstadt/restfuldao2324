@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class StudentDTO extends Mensch {
 
     protected String klasse;
-
     protected long id;
 
     @JsonCreator
