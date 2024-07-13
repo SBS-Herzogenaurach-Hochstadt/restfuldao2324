@@ -14,12 +14,18 @@ import java.util.List;
 
 public class DataAccessObject {
 
+    private final String url;
+
+    public DataAccessObject(String url) {
+        this.url = url;
+    }
+
     public List<StudentDTO> findAll() {
         List<StudentDTO> students = new ArrayList<>();
         try (HttpClient client = HttpClient.newHttpClient()) {
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://192.168.4.143:8080/studenten")).
+                    .uri(new URI(url)).
                     GET().build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -44,7 +50,7 @@ public class DataAccessObject {
             String requestBody = mapper.writeValueAsString(student);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://192.168.4.143:8080/studenten"))
+                    .uri(new URI(url))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
@@ -58,7 +64,7 @@ public class DataAccessObject {
     public void delete(long id) {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://192.168.4.143:8080/studenten/" + id))
+                    .uri(new URI(url + "/" + id))
                     .DELETE().build();
             client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
@@ -71,7 +77,7 @@ public class DataAccessObject {
         try (HttpClient client = HttpClient.newHttpClient()) {
             String requestBody = mapper.writeValueAsString(student);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://192.168.4.143:8080/studenten/" + id))
+                    .uri(new URI(url + "/" + id))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();

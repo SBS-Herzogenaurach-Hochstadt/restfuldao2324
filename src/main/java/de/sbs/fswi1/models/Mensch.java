@@ -48,13 +48,9 @@ public abstract class Mensch {
 
         Mensch mensch = (Mensch) other;
 
-        if (mensch.getVorname().equals(this.getVorname())
+        return mensch.getVorname().equals(this.getVorname())
                 && mensch.getNachname().equals(this.getNachname())
-                && mensch.getGeburtsdatum().equals(this.getGeburtsdatum())) {
-            return true;
-        }
-
-        return false;
+                && mensch.getGeburtsdatum().equals(this.getGeburtsdatum());
     }
 
     @Override

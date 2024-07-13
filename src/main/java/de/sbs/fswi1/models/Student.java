@@ -1,6 +1,5 @@
 package de.sbs.fswi1.models;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -17,13 +16,9 @@ public class Student extends StudentDTO {
     }
 
     public int getAlterInJahrenZuHeute() {
-        // Das Format des Datums festlegen
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        // String in ein LocalDate-Objekt umwandeln
         LocalDate bufGeburtsdatum = LocalDate.parse(geburtsdatum, formatter);
-        // Das aktuelle Datum
         LocalDate heute = LocalDate.now();
-        // Das berechnete Alter zurückgeben
         return Period.between(bufGeburtsdatum, heute).getYears();
     }
 
@@ -44,11 +39,7 @@ public class Student extends StudentDTO {
 
         Student otherStudent = (Student) other;
 
-        if (otherStudent.id == this.id) {
-            return true;
-        }
-
-        return false;
+        return otherStudent.id == this.id;
     }
 
     @Override
